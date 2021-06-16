@@ -1,10 +1,13 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+//const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const path = require('path');
+
+
 
 module.exports = function (webpackEnv) {
   return {
     entry: './src/index.js',
+    mode: webpackEnv==='development'? 'development':'production',
     output: {
       path: process.cwd() + '/build',
     },
@@ -18,7 +21,7 @@ module.exports = function (webpackEnv) {
             loader: 'babel-loader',
             options: {
               presets: ["@babel/preset-env", ["@babel/preset-react", {
-                runtime: "automatic"
+                runtime: "automatic",
               }]]
             }
           }
@@ -40,13 +43,13 @@ module.exports = function (webpackEnv) {
       ]
     },
     plugins: [
-      new ModuleFederationPlugin(
+      /* new ModuleFederationPlugin(
         {
           name: 'Container',
           filename:
             'remoteEntry.js',
         }
-      ),
+      ), */
       new HtmlWebpackPlugin({
         inject: true,
         template: 'public/index.html'
